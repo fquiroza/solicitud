@@ -1,5 +1,4 @@
 <?php
-use Illuminate\Http\Request;
 
 Route::get('/', 'LoginController@Login');
 Route::get('/login', 'LoginController@Login')->name('login'); 
@@ -21,11 +20,10 @@ Event::listen('403', function(){
 	return Response::error('403');
 });
 
-Route::any('/pdf1', 'TicketsController@pdf1')->name('pdf1'); 
+//Route::any('/pdf1', 'TicketsController@pdf1')->name('pdf1'); 
 
-Route::group(['middleware' => ['user']], function()
-{
-
+Route::group(['middleware' => ['user']], function(){
+	
 	Route::get('/home', 'HomeController@index')->name('home'); 
 
 	Route::get('/crear_tickets', 'TicketsController@crear')->name('crear_tickets');
@@ -51,12 +49,6 @@ Route::group(['middleware' => ['user']], function()
 
 	Route::get('/DelDependencia', 'DependenciaController@DelDependencia')->name('DelDependencia');
 	Route::post('/DelDependencia', 'DependenciaController@DelDependencia');
-
-	Route::get('sol/{id}', 'TicketsController@solicitud');
-
-	Route::get('/ticket', 'TicketsController@ticket')->name('ticket');
-
-	Route::get('/tick', 'TicketsController@tick')->name('tick');
 
 	Route::get('/TicketGenerade', 'TicketsController@TicketGenerade')->name('historial_tickets');
 	Route::post('/TicketGenerade', 'TicketsController@TicketGenerade');

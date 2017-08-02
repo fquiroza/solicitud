@@ -245,7 +245,7 @@
 
         <script type="text/javascript">
       function VerDependencia(id){
-        window.open('{{URL::to('/')}}/pdf/tickets-' + id + '.pdf', "PDF");
+        window.open('{{URL::to('/')}}/pdf/dependencia-' + id + '.pdf', "PDF");
       } 
     </script>
 

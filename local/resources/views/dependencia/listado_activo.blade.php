@@ -29,7 +29,7 @@
                             <table width="100%" height="100%" id="dependencia">
                               <thead>
                                 <tr>
-                                  <td>#</td>
+                                  <td>ID</td>
                                   <td>Usuario</td>
                                   <td>Asignado</td>
                                   <td>F. Solicitud</td>
@@ -80,7 +80,7 @@
                                         @endif
                                         </td>
                                         <td> 
-                                        <button class="btn btn-info" onclick="VerDependencia('{{URL::to('/')}}/pdf/dependencia-','<?php echo $d->cpv_dependencia_id; ?>');" > <span class="fa fa-eye"> Ver</span>
+                                        <button class="btn btn-info" onclick="VerDependencia('<?php echo $d->cpv_dependencia_id; ?>');" > <span class="fa fa-eye"> Ver</span>
                                         </button>
                                         @if($user==$d->ad_user_id)
                                         <button class="btn btn-danger" onclick="DelDependencia('<?php echo $d->cpv_dependencia_id; ?>');" data-toggle="modal" data-target="#ModalCerrar"> <span class="fa fa-window-close"> Cerrar</span></button> 
@@ -126,7 +126,7 @@
                                         @endif
                                         </td>
                                         <td> 
-                                        <button class="btn btn-info" onclick="VerDependencia('{{URL::to('/')}}/pdf/dependencia-','<?php echo $d->cpv_dependencia_id; ?>');" > <span class="fa fa-eye"> Ver</span>
+                                        <button class="btn btn-info" onclick="VerDependencia('<?php echo $d->cpv_dependencia_id; ?>');" > <span class="fa fa-eye"> Ver</span>
                                         </button>
                                         @if($user==$d->ad_user_id)
                                         <button class="btn btn-danger" onclick="DelDependencia('<?php echo $d->cpv_dependencia_id; ?>');" data-toggle="modal" data-target="#ModalCerrar"> <span class="fa fa-window-close"> Cerrar</span></button> 

@@ -93,8 +93,6 @@ class DependenciaController extends Controller
                 $requerimiento = 'Sala';
             }
         
-            
-
             $email = $request->session()->get('email');
             $email_ad_user = $this->user_email(1017257);
             $id = Dependencia::count()+1;
@@ -250,30 +248,18 @@ class DependenciaController extends Controller
 
     public function historial(Request $request)
     {
-    	$user = $request->session()->get('id');
+     if($request->session()->get('admin')==TRUE)
+        {$admin=TRUE;}else{$admin=FALSE;}
 
-        if($request->session()->get('admin')==TRUE)
-        {
+        $dependencia = Dependencia::all();
+        
+        $eo_grade = $this->eo_grade();
+        $ad_user = $this->ad_user();
+        $user = $request->session()->get('id');
 
-            $dependencia = Dependencia::where('status','=','CERRADO')
-                        ->orderBy('cpv_dependencia_id','desc')
-                        ->paginate(10);
+        $message = $request->session()->get('message');
 
-        }else{
-
-            $dependencia = Dependencia::where(function ($query) use ($user) {
-                        $query->where('createdby', '=', $user)
-                            ->orWhere('ad_user_id', $user);
-                        })
-                        ->where('status','=','CERRADO')
-                        ->orderBy('cpv_dependencia_id','desc')
-                        ->paginate(10);
-        }
-
-    	$eo_grade = $this->eo_grade();
-	    $ad_user = $this->ad_user();
-    	
-     return View('dependencia.historial_solicitud', compact('dependencia','eo_grade','ad_user'));
+        return View('dependencia.historial_solicitud', compact('dependencia','eo_grade','ad_user','user','admin'));
     }
 
 }

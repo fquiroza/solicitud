@@ -23,7 +23,7 @@
       <table border="0" width="100%" height="100%">
           <tr class="space">
             <td colspan="2"><img src="{{asset('frontend/sistema/img/logo2.png')}}" height="65px" width="270px"></td>
-            <td colspan="2"><h4>Ticket N° {{$data['numero']}}</h4><h4>Fecha Solicitud: {{date_format(date_create($data['fecha']),"d-m-Y H:i")}}</h4></td>
+            <td colspan="2"><h4>Ticket N° {{$data['numero']}}</h4><h4>Fecha Solicitud: {{date_format(date_create($data['fecha']),"d-m-Y H:i")}}</h4><h4>Fecha Cierre: {{date_format(date_create($data['fecha_cierre']),"d-m-Y H:i")}}</h4></td>
           </tr>
 
           <tr class="space">

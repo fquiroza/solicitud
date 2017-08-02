@@ -74,6 +74,7 @@ class TicketsController extends Controller
             {
                 $email_ad_user=$this->user_email(1017256);
                 $user_ad_id=1017256;
+
             }elseif($tipo==2)
             {
                 $email_ad_user=$this->user_email(1017258);
@@ -99,8 +100,7 @@ class TicketsController extends Controller
     				$location = $ky->name;
     			}
     		}
-    		
-    		//$email_ad_user = $this->tipo_user($tipo);
+
     		$email = $request->session()->get('email');
     		$id = Tickets::count()+1;
 
@@ -210,6 +210,7 @@ class TicketsController extends Controller
     	  	$data = array(
     			'numero' => $request->input('id'),
     			'fecha' => $t->created,
+                'fecha_cierre' => $t->updated,
     			'solicitante' => $solicitante,
     			'cargo' => $cargo,
                 'lugar' => $t->location,
