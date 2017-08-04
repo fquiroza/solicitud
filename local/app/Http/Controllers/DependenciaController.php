@@ -214,9 +214,7 @@ class DependenciaController extends Controller
 
         }else{
 
-            $eo_grade = $this->eo_grade();
-
-            return View('dependencia.nueva_dependencia', compact('eo_grade'));
+            return View('dependencia.nueva_dependencia');
         }
     }
 
