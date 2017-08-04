@@ -1,7 +1,7 @@
 @extends('includes.header')
 @section('content')
 <!-- page content -->
-        <div class="right_col" role="main">
+        <div class="right_col" role="main" style="min-height: 771px;">
           <div class="">
             <div class="page-title">
               <div class="title_left">
@@ -43,11 +43,6 @@
                               </thead>
                               <tbody>
                                 @foreach ($dependencia as $d)
-
-                                  @if($admin==TRUE)
-
-                                    @if($d->status=='ABIERTO')
-
                                       <tr>
                                         <td>{{$d->cpv_dependencia_id}}</td>
 
@@ -87,57 +82,6 @@
                                         @endif
                                         </td>
                                       </tr>
-
-                                    @endif
-
-                                  @elseif($d->createdby==$user || $d->ad_user_id==$user)
-
-                                    @if($d->status=='ABIERTO')
-
-                                      <tr>
-                                        <td>{{$d->cpv_dependencia_id}}</td>
-
-                                        <td>
-                                        @foreach ($ad_user as $ad)
-                                          @if($d->createdby==$ad->id)
-                                            {{$ad->name}}
-                                          @endif
-                                        @endforeach
-                                        </td>
-
-                                        <td>
-                                        @foreach ($ad_user as $ad)
-                                          @if($d->ad_user_id==$ad->id)
-                                            {{$ad->name}}
-                                          @endif
-                                        @endforeach
-                                        </td>
-
-                                        <td>{{date_format(date_create($d->created),"d-m-Y H:i")}}</td>
-                                        <td>{{$d->requerimiento}}</td>
-                                        <td>{{$d->location}}</td>
-                                        <td>{{date_format(date_create($d->fecha_desde),"d-m-Y H:i")}}</td>
-                                        <td>{{date_format(date_create($d->fecha_hasta),"d-m-Y H:i")}}</td>
-                                        <td>
-                                        @if ($d->status=='ABIERTO')
-                                          <span class="label label-success">ABIERTO</span>
-                                        @else
-                                          <span class="label label-danger">CERRADO</span>
-                                        @endif
-                                        </td>
-                                        <td> 
-                                        <button class="btn btn-info" onclick="VerDependencia('<?php echo $d->cpv_dependencia_id; ?>');" > <span class="fa fa-eye"> Ver</span>
-                                        </button>
-                                        @if($user==$d->ad_user_id)
-                                        <button class="btn btn-danger" onclick="DelDependencia('<?php echo $d->cpv_dependencia_id; ?>');" data-toggle="modal" data-target="#ModalCerrar"> <span class="fa fa-window-close"> Cerrar</span></button> 
-                                        @endif
-                                        </td>
-                                      </tr>
-
-                                    @endif
-
-                                  @endif
-
                                 @endforeach
                               </tbody>
                             </table>

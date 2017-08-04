@@ -26,10 +26,21 @@ class DependenciaController extends Controller
 
     public function listar_dependencia(Request $request)
     {
-        if($request->session()->get('admin')==TRUE)
-        {$admin=TRUE;}else{$admin=FALSE;}
+        $user = $request->session()->get('id');
 
-        $dependencia = Dependencia::all();
+        if($request->session()->get('admin')==TRUE)
+        {
+
+            $dependencia = Dependencia::where('status','=','ABIERTO')->get();
+
+        }else{
+
+            $dependencia = Dependencia::where(function ($query) use ($user) {
+                            $query->where('createdby', '=', $user)
+                                  ->orWhere('ad_user_id', $user);
+                            })
+                            ->where('status','=','ABIERTO')->get();
+        }
         
         $eo_grade = $this->eo_grade();
         $ad_user = $this->ad_user();
@@ -37,7 +48,7 @@ class DependenciaController extends Controller
 
         $message = $request->session()->get('message');
 
-        return View('dependencia.listado_activo', compact('dependencia','eo_grade','ad_user','message','user','admin'));
+        return View('dependencia.listado_activo', compact('dependencia','eo_grade','ad_user','message','user'));
     }
 
     public function crear_dependencia(Request $request)
@@ -248,18 +259,28 @@ class DependenciaController extends Controller
 
     public function historial(Request $request)
     {
-     if($request->session()->get('admin')==TRUE)
-        {$admin=TRUE;}else{$admin=FALSE;}
+        $user = $request->session()->get('id');
 
-        $dependencia = Dependencia::all();
+        if($request->session()->get('admin')==TRUE)
+        {
+
+            $dependencia = Dependencia::where('status','=','CERRADO')->get();
+
+        }else{
+
+            $dependencia = Dependencia::where(function ($query) use ($user) {
+                        $query->where('createdby', '=', $user)
+                            ->orWhere('ad_user_id', $user);
+                        })
+                        ->where('status','=','CERRADO')->get();
+        }
         
         $eo_grade = $this->eo_grade();
         $ad_user = $this->ad_user();
-        $user = $request->session()->get('id');
 
         $message = $request->session()->get('message');
 
-        return View('dependencia.historial_solicitud', compact('dependencia','eo_grade','ad_user','user','admin'));
+        return View('dependencia.historial_solicitud', compact('dependencia','eo_grade','ad_user','user'));
     }
 
 }

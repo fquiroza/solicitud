@@ -103,6 +103,16 @@
                   </li>
                 </ul>
               </div>
+              
+              @if (Session::has('admin'))
+              <div class="menu_section">
+              <h3>Historial</h3>
+                <ul class="nav side-menu">
+                  <li><a href="{{url('reporte')}}"><i class="fa fa-book"></i>Reportes</a>
+                  </li>
+                </ul>
+              </div>
+              @endif  
 
             </div>
           </div>
@@ -157,17 +167,12 @@
 
     <script src="//code.jquery.com/jquery-1.12.4.js"></script>
 
-    <script
-        src="http://code.jquery.com/ui/1.12.1/jquery-ui.js"
-        integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30="
-        crossorigin="anonymous"></script>
-    
-        <!-- jQuery 2.1.4 -->
-     <!--<script src="{{asset('js/jQuery-2.1.4.min.js')}}"></script> -->
-    <!-- AdminLTE App -->
+    <script src="http://code.jquery.com/ui/1.12.1/jquery-ui.js" integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30=" crossorigin="anonymous"></script>
+
     <script src="{{asset('frontend/sistema/js/app.min.js')}}"></script>
 
-    <script type="text/javascript" src="{{asset('frontend/datetimepicker/js/bootstrap-datetimepicker.js')}}" charset="UTF-8"></script>
+    <script type="text/javascript" src="{{asset('frontend/datetimepicker/js/bootstrap-datetimepicker.js')}}"></script>
+
     <script type="text/javascript" src="{{asset('frontend/datetimepicker/js/locales/bootstrap-datetimepicker.es.js')}}" charset="UTF-8"></script>
 
     <script src="{{asset('frontend/sistema/js/carga_datos.js')}}"></script>
@@ -184,6 +189,16 @@
         autoclose: 1
       });
     </script>
+
+<script type="text/javascript">
+ $('.form_date').datetimepicker({
+        language:  'es',
+        format: 'yyyy-mm-dd',
+        weekStart: 1,
+        autoclose: 1,
+        minView: 2
+    });
+</script> 
 
     <script type="text/javascript">
       function carga_categoria()

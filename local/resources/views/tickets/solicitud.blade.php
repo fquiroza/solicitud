@@ -2,7 +2,7 @@
 @section('content')
 <?php $count=1;?>
 <!-- page content -->
-        <div class="right_col" role="main">
+        <div class="right_col" role="main" style="min-height: 771px;">
           <div class="">
             <div class="page-title">
               <div class="title_left">

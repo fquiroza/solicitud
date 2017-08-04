@@ -53,5 +53,11 @@ Route::group(['middleware' => ['user']], function(){
 	Route::get('/TicketGenerade', 'TicketsController@TicketGenerade')->name('historial_tickets');
 	Route::post('/TicketGenerade', 'TicketsController@TicketGenerade');
 
+	Route::get('/reporte', 'ExcelController@index')->name('reporte');
+	Route::post('/reporte', 'ExcelController@index');
+
+	Route::get('/reportexcel', 'ExcelController@ReportGenerade')->name('reportexcel');
+	Route::post('/reportexcel', 'ExcelController@ReportGenerade');
+
 });
 

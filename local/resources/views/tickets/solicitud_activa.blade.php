@@ -43,53 +43,6 @@
                               </thead>
                               <tbody>
                               @foreach ($ticket as $t)
-
-                                @if($admin==TRUE)
-
-                                  @if($t->status=='ABIERTO')
-                                    <tr>
-                                      <td>{{$t->cpv_tickets_id}}</td>
-
-                                      <td>
-                                      @foreach ($ad_user as $ad)
-                                        @if($t->createdby==$ad->id)
-                                          {{$ad->name}}
-                                        @endif
-                                      @endforeach
-                                      </td>
-
-                                      <td>
-                                      @foreach ($ad_user as $ad)
-                                        @if($t->ad_user_id==$ad->id)
-                                          {{$ad->name}}
-                                        @endif
-                                      @endforeach
-                                      </td>
-
-                                      <td>{{$t->type}}</td>
-                                      <td>{{$t->category}}</td>
-                                      <td>{{$t->location}}</td>
-                                      <td>
-                                      @if ($t->status=='ABIERTO')
-                                        <span class="label label-success">ABIERTO</span>
-                                      @else
-                                        <span class="label label-danger">CERRADO</span>
-                                      @endif
-                                      </td>
-                                      <td>{{date_format(date_create($t->created),"d-m-Y H:i:s")}}</td>
-                                      <td> 
-                                      <button class="btn btn-info" onclick="VerTicket('<?php echo $t->cpv_tickets_id; ?>');"> <span class="fa fa-eye"> Ver</span>
-                                      </button>
-                                      @if($user==$t->ad_user_id)
-                                      <button class="btn btn-danger" onclick="DelTicket('<?php echo $t->cpv_tickets_id; ?>');" data-toggle="modal" data-target="#ModalCerrar"> <span class="fa fa-window-close"> Cerrar</span></button> 
-                                      @endif
-                                      </td>
-                                    </tr>
-                                    @endif
-
-                                  @elseif($t->createdby==$user || $t->ad_user_id==$user)
-
-                                    @if($t->status=='ABIERTO')
                                     <tr>
                                       <td>{{$t->cpv_tickets_id}}</td>
 
@@ -127,11 +80,6 @@
                                       <button class="btn btn-danger" onclick="DelTicket('<?php echo $t->cpv_tickets_id; ?>');" data-toggle="modal" data-target="#ModalCerrar"> <span class="fa fa-window-close"> Cerrar</span></button> 
                                       @endif
                                       </td>
-                                    </tr>
-                                    @endif
-
-                                @endif
-
                               @endforeach
                               </tbody>
                             </table>

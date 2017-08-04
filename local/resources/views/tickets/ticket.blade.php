@@ -1,4 +1,4 @@
-@extends('includes.header')
+@extends('includes.head')
 @section('content')
 <!-- page content -->
         <div class="right_col" role="main" >

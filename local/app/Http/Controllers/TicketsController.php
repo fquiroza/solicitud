@@ -26,18 +26,28 @@ class TicketsController extends Controller
 
     public function listar(Request $request)
     {
+        $user = $request->session()->get('id');
+        
         if($request->session()->get('admin')==TRUE)
-        {$admin=TRUE;}else{$admin=FALSE;}
+        {
 
-        $ticket = Tickets::all();
+            $ticket = Tickets::where('status','=','ABIERTO')->get();
+
+        }else{
+
+            $ticket = Tickets::where(function ($query) use ($user) {
+                                $query->where('createdby', '=', $user)
+                                    ->orWhere('ad_user_id', $user);
+                            })
+                            ->where('status','=','ABIERTO')->get();
+        }
         
         $eo_grade = $this->eo_grade();
         $ad_user = $this->ad_user();
-        $user = $request->session()->get('id');
 
         $message = $request->session()->get('message');
         
-     return View('tickets.solicitud_activa', compact('ticket','eo_grade','ad_user','message','user','admin'));
+     return View('tickets.solicitud_activa', compact('ticket','eo_grade','ad_user','message','user'));
     }
 
     public function crear(Request $request)
@@ -257,10 +267,21 @@ class TicketsController extends Controller
 
     public function historial(Request $request)
     {
-        if($request->session()->get('admin')==TRUE)
-        {$admin=TRUE;}else{$admin=FALSE;}
+        $user = $request->session()->get('id');
 
-        $ticket = Tickets::all();
+        if($request->session()->get('admin')==TRUE)
+        {
+
+            $ticket = Tickets::where('status','=','CERRADO')->get();
+
+        }else{
+
+            $ticket = Tickets::where(function ($query) use ($user) {
+                        $query->where('createdby', '=', $user)
+                            ->orWhere('ad_user_id', $user);
+                        })
+                        ->where('status','=','CERRADO')->get();
+        }
         
         $eo_grade = $this->eo_grade();
         $ad_user = $this->ad_user();
@@ -268,7 +289,7 @@ class TicketsController extends Controller
 
         $message = $request->session()->get('message');
         
-     return View('tickets.historial_solicitud', compact('ticket','eo_grade','ad_user','message','user','admin'));
+     return View('tickets.historial_solicitud', compact('ticket','eo_grade','ad_user','message','user'));
     }
 
     /*public function pdf1()

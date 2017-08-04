@@ -43,11 +43,6 @@
                               </thead>
                               <tbody>
                                 @foreach ($dependencia as $d)
-
-                                  @if($admin==TRUE)
-
-                                    @if($d->status=='CERRADO')
-
                                       <tr>
                                         <td>{{$d->cpv_dependencia_id}}</td>
 
@@ -84,54 +79,6 @@
                                         </button>
                                         </td>
                                       </tr>
-
-                                    @endif
-
-                                  @elseif($d->createdby==$user || $d->ad_user_id==$user)
-
-                                    @if($d->status=='CERRADO')
-
-                                      <tr>
-                                        <td>{{$d->cpv_dependencia_id}}</td>
-
-                                        <td>
-                                        @foreach ($ad_user as $ad)
-                                          @if($d->createdby==$ad->id)
-                                            {{$ad->name}}
-                                          @endif
-                                        @endforeach
-                                        </td>
-
-                                        <td>
-                                        @foreach ($ad_user as $ad)
-                                          @if($d->ad_user_id==$ad->id)
-                                            {{$ad->name}}
-                                          @endif
-                                        @endforeach
-                                        </td>
-
-                                        <td>{{date_format(date_create($d->created),"d-m-Y H:i")}}</td>
-                                        <td>{{$d->requerimiento}}</td>
-                                        <td>{{$d->location}}</td>
-                                        <td>{{date_format(date_create($d->fecha_desde),"d-m-Y H:i")}}</td>
-                                        <td>{{date_format(date_create($d->fecha_hasta),"d-m-Y H:i")}}</td>
-                                        <td>
-                                        @if ($d->status=='ABIERTO')
-                                          <span class="label label-success">ABIERTO</span>
-                                        @else
-                                          <span class="label label-danger">CERRADO</span>
-                                        @endif
-                                        </td>
-                                        <td> 
-                                        <button class="btn btn-info" onclick="VerDependencia('<?php echo $d->cpv_dependencia_id; ?>');" > <span class="fa fa-eye"> Ver</span>
-                                        </button>
-                                        </td>
-                                      </tr>
-
-                                    @endif
-
-                                  @endif
-
                                 @endforeach
                               </tbody>
                             </table>
