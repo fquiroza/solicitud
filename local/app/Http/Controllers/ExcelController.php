@@ -34,7 +34,7 @@ class ExcelController extends Controller
             {
             
                 $tickets = Tickets::where('created','>=',$fecha_inicio." 00:00:00")
-                                    ->where('updated','<=',$fecha_fin." 23:59:59")
+                                    ->where('created','<=',$fecha_fin." 23:59:59")
                                     ->get();
 
             }else
@@ -102,7 +102,7 @@ class ExcelController extends Controller
             {
             
                 $dependencia = Dependencia::where('created','>=',$fecha_inicio." 00:00:00")
-                                    ->where('updated','<=',$fecha_fin." 23:59:59")
+                                    ->where('created','<=',$fecha_fin." 23:59:59")
                                     ->get();
 
             }else

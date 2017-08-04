@@ -10,6 +10,7 @@ use DB;
 use PHPMailerAutoload; 
 use PHPMailer;
 use PDF;
+use Datatables;
 
 class TicketsController extends Controller
 {   
@@ -26,27 +27,59 @@ class TicketsController extends Controller
 
     public function listar(Request $request)
     {
+        $message = $request->session()->get('message');
+        return View('tickets.solicitud_activa', compact('message'));
+    }
+
+    public function ticket_list(Request $request)
+    {
         $user = $request->session()->get('id');
-        
+
         if($request->session()->get('admin')==TRUE)
         {
 
-            $ticket = Tickets::where('status','=','ABIERTO')->get();
+                    return Datatables::of(
+                            DB::connection('pgsql')
+                            ->table('cpv_tickets AS t')
+                            ->select(
+                            't.cpv_tickets_id',
+                            DB::raw("(select title from ad_user where ad_user_id=t.createdby) as createdby"),
+                            DB::raw("(select title from ad_user a where a.ad_user_id=t.ad_user_id) as ad_user_id"),
+                            't.type',
+                            't.category',
+                            't.location',
+                            't.status',
+                            DB::raw($user." AS user"),
+                            DB::raw("t.ad_user_id AS ad_user"),
+                            DB::raw("TO_CHAR(t.created,'YYYY-MM-DD HH24:MI') as created"))
+                            ->where('t.status','=','ABIERTO')
+                            ->get()
+                            )->make(true);
 
         }else{
 
-            $ticket = Tickets::where(function ($query) use ($user) {
-                                $query->where('createdby', '=', $user)
-                                    ->orWhere('ad_user_id', $user);
-                            })
-                            ->where('status','=','ABIERTO')->get();
+                    return Datatables::of(
+                            DB::connection('pgsql')
+                            ->table('cpv_tickets AS t')
+                            ->select(
+                            't.cpv_tickets_id',
+                            DB::raw("(select title from ad_user where ad_user_id=t.createdby) as createdby"),
+                            DB::raw("(select title from ad_user a where a.ad_user_id=t.ad_user_id) as ad_user_id"),
+                            't.type',
+                            't.category',
+                            't.location',
+                            't.status',
+                            DB::raw($user." AS user"),
+                            DB::raw("t.ad_user_id AS ad_user"),
+                            DB::raw("TO_CHAR(t.created,'YYYY-MM-DD HH24:MI') as created"))
+                            ->where('t.status','=','ABIERTO')
+                            ->where(function ($query) use ($user) {
+                                    $query->where('t.createdby', '=', $user)
+                                          ->orWhere('t.ad_user_id','=', $user);
+                                    })
+                            ->get()
+                            )->make(true);
         }
-
-        $ad_user = $this->ad_user();
-
-        $message = $request->session()->get('message');
-        
-     return View('tickets.solicitud_activa', compact('ticket','ad_user','message','user'));
     }
 
     public function crear(Request $request)
@@ -266,28 +299,61 @@ class TicketsController extends Controller
 
     public function historial(Request $request)
     {
+        $message = $request->session()->get('message');
+        return View('tickets.historial_solicitud', compact('message'));
+    }
+
+    public function ticket_historial(Request $request)
+    {
         $user = $request->session()->get('id');
 
         if($request->session()->get('admin')==TRUE)
         {
 
-            $ticket = Tickets::where('status','=','CERRADO')->get();
+                    return Datatables::of(
+                            DB::connection('pgsql')
+                            ->table('cpv_tickets AS t')
+                            ->select(
+                            't.cpv_tickets_id',
+                            DB::raw("(select title from ad_user where ad_user_id=t.createdby) as createdby"),
+                            DB::raw("(select title from ad_user a where a.ad_user_id=t.ad_user_id) as ad_user_id"),
+                            't.type',
+                            't.category',
+                            't.location',
+                            't.status',
+                            DB::raw($user." AS user"),
+                            DB::raw("t.ad_user_id AS ad_user"),
+                            DB::raw("TO_CHAR(t.created,'YYYY-MM-DD HH24:MI') as created"),
+                            DB::raw("TO_CHAR(t.updated,'YYYY-MM-DD HH24:MI') as updated"))
+                            ->where('t.status','=','CERRADO')
+                            ->get()
+                            )->make(true);
 
         }else{
 
-            $ticket = Tickets::where(function ($query) use ($user) {
-                        $query->where('createdby', '=', $user)
-                            ->orWhere('ad_user_id', $user);
-                        })
-                        ->where('status','=','CERRADO')->get();
+                    return Datatables::of(
+                            DB::connection('pgsql')
+                            ->table('cpv_tickets AS t')
+                            ->select(
+                            't.cpv_tickets_id',
+                            DB::raw("(select title from ad_user where ad_user_id=t.createdby) as createdby"),
+                            DB::raw("(select title from ad_user a where a.ad_user_id=t.ad_user_id) as ad_user_id"),
+                            't.type',
+                            't.category',
+                            't.location',
+                            't.status',
+                            DB::raw($user." AS user"),
+                            DB::raw("t.ad_user_id AS ad_user"),
+                            DB::raw("TO_CHAR(t.created,'YYYY-MM-DD HH24:MI') as created"),
+                            DB::raw("TO_CHAR(t.updated,'YYYY-MM-DD HH24:MI') as updated"))
+                            ->where('t.status','=','CERRADO')
+                            ->where(function ($query) use ($user) {
+                                    $query->where('t.createdby', '=', $user)
+                                          ->orWhere('t.ad_user_id','=', $user);
+                                    })
+                            ->get()
+                            )->make(true);
         }
-        
-        $ad_user = $this->ad_user();
-        $user = $request->session()->get('id');
-
-        $message = $request->session()->get('message');
-        
-     return View('tickets.historial_solicitud', compact('ticket','ad_user','message','user'));
     }
 
     /*public function pdf1()
@@ -299,5 +365,4 @@ class TicketsController extends Controller
         $pdf = PDF::loadView('pdf/pdf1',compact('data'));
         return $pdf->stream('temp.pdf');
     }*/
-
 }

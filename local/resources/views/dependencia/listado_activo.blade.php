@@ -26,7 +26,7 @@
                       <div class="row">
                         <!-- Your Page Content Here -->
                           <div class="box-header with-border">
-                            <table width="100%" height="100%" id="dependencia">
+                            <table width="100%" height="100%" id="dependenciaon" class="table">
                               <thead>
                                 <tr>
                                   <td>ID</td>
@@ -41,49 +41,6 @@
                                   <td>Acción</td>
                                 </tr>
                               </thead>
-                              <tbody>
-                                @foreach ($dependencia as $d)
-                                      <tr>
-                                        <td>{{$d->cpv_dependencia_id}}</td>
-
-                                        <td>
-                                        @foreach ($ad_user as $ad)
-                                          @if($d->createdby==$ad->id)
-                                            {{$ad->name}}
-                                          @endif
-                                        @endforeach
-                                        </td>
-
-                                        <td>
-                                        @foreach ($ad_user as $ad)
-                                          @if($d->ad_user_id==$ad->id)
-                                            {{$ad->name}}
-                                          @endif
-                                        @endforeach
-                                        </td>
-
-                                        <td>{{date_format(date_create($d->created),"d-m-Y H:i")}}</td>
-                                        <td>{{$d->requerimiento}}</td>
-                                        <td>{{$d->location}}</td>
-                                        <td>{{date_format(date_create($d->fecha_desde),"d-m-Y H:i")}}</td>
-                                        <td>{{date_format(date_create($d->fecha_hasta),"d-m-Y H:i")}}</td>
-                                        <td>
-                                        @if ($d->status=='ABIERTO')
-                                          <span class="label label-success">ABIERTO</span>
-                                        @else
-                                          <span class="label label-danger">CERRADO</span>
-                                        @endif
-                                        </td>
-                                        <td> 
-                                        <button class="btn btn-info" onclick="VerDependencia('<?php echo $d->cpv_dependencia_id; ?>');" > <span class="fa fa-eye"> Ver</span>
-                                        </button>
-                                        @if($user==$d->ad_user_id)
-                                        <button class="btn btn-danger" onclick="DelDependencia('<?php echo $d->cpv_dependencia_id; ?>');" data-toggle="modal" data-target="#ModalCerrar"> <span class="fa fa-window-close"> Cerrar</span></button> 
-                                        @endif
-                                        </td>
-                                      </tr>
-                                @endforeach
-                              </tbody>
                             </table>
                           </div><!-- /.box-header -->
 

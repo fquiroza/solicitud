@@ -10,6 +10,7 @@ use DB;
 use PHPMailerAutoload; 
 use PHPMailer;
 use PDF;
+use Datatables;
 
 class DependenciaController extends Controller
 {   
@@ -26,28 +27,60 @@ class DependenciaController extends Controller
 
     public function listar_dependencia(Request $request)
     {
+        $message = $request->session()->get('message');
+        return View('dependencia.listado_activo', compact('message'));
+    }
+
+    public function dependencia_list(Request $request)
+    {
         $user = $request->session()->get('id');
 
         if($request->session()->get('admin')==TRUE)
         {
-
-            $dependencia = Dependencia::where('status','=','ABIERTO')->get();
+                    return Datatables::of(
+                            DB::connection('pgsql')
+                            ->table('cpv_dependencia AS d')
+                            ->select(
+                            'd.cpv_dependencia_id',
+                            DB::raw("(select title from ad_user where ad_user_id=d.createdby) as createdby"),
+                            DB::raw("(select title from ad_user a where a.ad_user_id=d.ad_user_id) as ad_user_id"),
+                            DB::raw("TO_CHAR(d.created,'YYYY-MM-DD HH24:MI') as created"),
+                            'd.requerimiento',
+                            'd.location',
+                            DB::raw("TO_CHAR(d.fecha_desde,'YYYY-MM-DD HH24:MI') as fecha_inicio"),
+                            DB::raw("TO_CHAR(d.fecha_hasta,'YYYY-MM-DD HH24:MI') as fecha_fin"),
+                            'd.status',
+                            DB::raw($user." AS user"),
+                            DB::raw("d.ad_user_id AS ad_user"))
+                            ->where('d.status','=','ABIERTO')
+                            ->get()
+                            )->make(true);
 
         }else{
 
-            $dependencia = Dependencia::where(function ($query) use ($user) {
-                            $query->where('createdby', '=', $user)
-                                  ->orWhere('ad_user_id', $user);
-                            })
-                            ->where('status','=','ABIERTO')->get();
+                    return Datatables::of(
+                            DB::connection('pgsql')
+                            ->table('cpv_dependencia AS d')
+                            ->select(
+                            'd.cpv_dependencia_id',
+                            DB::raw("(select title from ad_user where ad_user_id=d.createdby) as createdby"),
+                            DB::raw("(select title from ad_user a where a.ad_user_id=d.ad_user_id) as ad_user_id"),
+                            DB::raw("TO_CHAR(d.created,'YYYY-MM-DD HH24:MI') as created"),
+                            'd.requerimiento',
+                            'd.location',
+                            DB::raw("TO_CHAR(d.fecha_desde,'YYYY-MM-DD HH24:MI') as fecha_inicio"),
+                            DB::raw("TO_CHAR(d.fecha_hasta,'YYYY-MM-DD HH24:MI') as fecha_fin"),
+                            'd.status',
+                            DB::raw($user." AS user"),
+                            DB::raw("d.ad_user_id AS ad_user"))
+                            ->where('d.status','=','ABIERTO')
+                            ->where(function ($query) use ($user) {
+                                    $query->where('d.createdby', '=', $user)
+                                          ->orWhere('d.ad_user_id','=', $user);
+                                    })
+                            ->get()
+                            )->make(true);
         }
-        
-        $ad_user = $this->ad_user();
-        $user = $request->session()->get('id');
-
-        $message = $request->session()->get('message');
-
-        return View('dependencia.listado_activo', compact('dependencia','ad_user','message','user'));
     }
 
     public function crear_dependencia(Request $request)
@@ -258,27 +291,61 @@ class DependenciaController extends Controller
 
     public function historial(Request $request)
     {
+        $message = $request->session()->get('message');
+        return View('dependencia.historial_solicitud', compact('message'));
+    }
+
+    public function dependencia_historial(Request $request)
+    {
         $user = $request->session()->get('id');
 
         if($request->session()->get('admin')==TRUE)
         {
-
-            $dependencia = Dependencia::where('status','=','CERRADO')->get();
+                    return Datatables::of(
+                            DB::connection('pgsql')
+                            ->table('cpv_dependencia AS d')
+                            ->select(
+                            'd.cpv_dependencia_id',
+                            DB::raw("(select title from ad_user where ad_user_id=d.createdby) as createdby"),
+                            DB::raw("(select title from ad_user a where a.ad_user_id=d.ad_user_id) as ad_user_id"),
+                            DB::raw("TO_CHAR(d.created,'YYYY-MM-DD HH24:MI') as created"),
+                            'd.requerimiento',
+                            'd.location',
+                            DB::raw("TO_CHAR(d.fecha_desde,'YYYY-MM-DD HH24:MI') as fecha_inicio"),
+                            DB::raw("TO_CHAR(d.fecha_hasta,'YYYY-MM-DD HH24:MI') as fecha_fin"),
+                            'd.status',
+                            DB::raw($user." AS user"),
+                            DB::raw("d.ad_user_id AS ad_user"))
+                            ->where('d.status','=','CERRADO')
+                            ->get()
+                            )->make(true);
 
         }else{
 
-            $dependencia = Dependencia::where(function ($query) use ($user) {
-                        $query->where('createdby', '=', $user)
-                            ->orWhere('ad_user_id', $user);
-                        })
-                        ->where('status','=','CERRADO')->get();
+                    return Datatables::of(
+                            DB::connection('pgsql')
+                            ->table('cpv_dependencia AS d')
+                            ->select(
+                            'd.cpv_dependencia_id',
+                            DB::raw("(select title from ad_user where ad_user_id=d.createdby) as createdby"),
+                            DB::raw("(select title from ad_user a where a.ad_user_id=d.ad_user_id) as ad_user_id"),
+                            DB::raw("TO_CHAR(d.created,'YYYY-MM-DD HH24:MI') as created"),
+                            'd.requerimiento',
+                            'd.location',
+                            DB::raw("TO_CHAR(d.fecha_desde,'YYYY-MM-DD HH24:MI') as fecha_inicio"),
+                            DB::raw("TO_CHAR(d.fecha_hasta,'YYYY-MM-DD HH24:MI') as fecha_fin"),
+                            'd.status',
+                            DB::raw($user." AS user"),
+                            DB::raw("d.ad_user_id AS ad_user"))
+                            ->where('d.status','=','CERRADO')
+                            ->where(function ($query) use ($user) {
+                                    $query->where('d.createdby', '=', $user)
+                                          ->orWhere('d.ad_user_id','=', $user);
+                                    })
+                            ->get()
+                            )->make(true);
         }
-
-        $ad_user = $this->ad_user();
-
-        $message = $request->session()->get('message');
-
-        return View('dependencia.historial_solicitud', compact('dependencia','ad_user','user'));
     }
+
 
 }

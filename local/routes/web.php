@@ -32,11 +32,15 @@ Route::group(['middleware' => ['user']], function(){
 	Route::get('/listar_tickets', 'TicketsController@listar')->name('listar_tickets');
 	Route::post('/listar_tickets', 'TicketsController@listar');
 
+	Route::get('/ticket_list', 'TicketsController@ticket_list');
+
 	Route::get('/DelTicket', 'TicketsController@DelTicket')->name('DelTicket');
 	Route::post('/DelTicket', 'TicketsController@DelTicket');
 
 	Route::get('/historial_tickets', 'TicketsController@historial')->name('historial_tickets');
 	Route::post('/historial_tickets', 'TicketsController@historial');
+
+	Route::get('/ticket_historial', 'TicketsController@ticket_historial');
 
 	Route::get('/crear_dependencia', 'DependenciaController@crear_dependencia')->name('crear_dependencia');
 	Route::post('/crear_dependencia', 'DependenciaController@crear_dependencia');
@@ -44,8 +48,12 @@ Route::group(['middleware' => ['user']], function(){
 	Route::get('/listar_dependencia', 'DependenciaController@listar_dependencia')->name('listar_dependencia');
 	Route::post('/listar_dependencia', 'DependenciaController@listar_dependencia');
 
+	Route::get('/dependencia_list', 'DependenciaController@dependencia_list');
+
 	Route::get('/historial_dependencia', 'DependenciaController@historial')->name('historial_dependencia');
 	Route::post('/historial_dependencia', 'DependenciaController@historial');
+
+	Route::get('/dependencia_historial', 'DependenciaController@dependencia_historial');
 
 	Route::get('/DelDependencia', 'DependenciaController@DelDependencia')->name('DelDependencia');
 	Route::post('/DelDependencia', 'DependenciaController@DelDependencia');
@@ -58,6 +66,5 @@ Route::group(['middleware' => ['user']], function(){
 
 	Route::get('/reportexcel', 'ExcelController@ReportGenerade')->name('reportexcel');
 	Route::post('/reportexcel', 'ExcelController@ReportGenerade');
-
 });
 

@@ -25,9 +25,8 @@
                    <div class="x_content">
                       <div class="row">
                         <!-- Your Page Content Here -->
-
                           <div class="box-header with-border">
-                            <table width="100%" height="100%" id="ticket">
+                            <table width="100%" height="100%" id="ticketoff" class="table">
                               <thead>
                                 <tr>
                                   <td>ID</td>
@@ -42,46 +41,6 @@
                                   <td>Acción</td>
                                 </tr>
                               </thead>
-                              <tbody>
-                              @foreach ($ticket as $t)
-                                    <tr class="tbody">
-                                      <td>{{$t->cpv_tickets_id}}</td>
-
-                                      <td>
-                                      @foreach ($ad_user as $ad)
-                                        @if($t->createdby==$ad->id)
-                                          {{$ad->name}}
-                                        @endif
-                                      @endforeach
-                                      </td>
-
-                                      <td>
-                                      @foreach ($ad_user as $ad)
-                                        @if($t->ad_user_id==$ad->id)
-                                          {{$ad->name}}
-                                        @endif
-                                      @endforeach
-                                      </td>
-
-                                      <td>{{$t->type}}</td>
-                                      <td>{{$t->category}}</td>
-                                      <td>{{$t->location}}</td>
-                                      <td>
-                                      @if ($t->status=='ABIERTO')
-                                        <span class="label label-success">ABIERTO</span>
-                                      @else
-                                        <span class="label label-danger">CERRADO</span>
-                                      @endif
-                                      </td>
-                                      <td>{{date_format(date_create($t->created),"d-m-Y H:i:s")}}</td>
-                                      <td>{{date_format(date_create($t->updated),"d-m-Y H:i:s")}}</td>
-                                      <td> 
-                                      <button class="btn btn-info" onclick="VerTicket('<?php echo $t->cpv_tickets_id; ?>');" > <span class="fa fa-eye"> Ver</span>
-                                      </button>
-                                      </td>
-                                    </tr>
-                              @endforeach
-                              </tbody>
                             </table>
                           </div><!-- /.box-header -->
                         <div class="box-body"  id="contenidoWeb">

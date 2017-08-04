@@ -423,10 +423,11 @@
   <script type="text/javascript">
     $(document).ready(function(){
       $('#ticketdata').DataTable({
+        "order": [[ 0, "desc" ]],
         "language": {url: '//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json'},
         "processing": true,
         "serverSide": true,
-        "ajax": {'url': '{{asset("TicketGenerade")}}'},
+        "ajax": {'url': '{{asset("generade")}}'},
         "columns":[
           {data: 'cpv_tickets_id'},
           {data: 'createdby'},
@@ -437,33 +438,25 @@
           {targets: -1,
            data: null,
            render: function(data, type, full, meta){
-               if(type === 'display'){
-
-                   data = "<span class='label label-success'>"+data.status+"</span>";
-                }
-              return data;
+               if(type === 'display'){data = "<span class='label label-success'>"+data.status+"</span>";}return data;
             }
           },
           {data: 'created'},
           {targets: -1,
            data: null,
            render: function(data, type, full, meta){
-               if(type === 'display'){
+            
+              switch(data.user) {
 
-                if(data.usuario!=data.ad_user){
-                   data = "<button class='btn btn-info' onclick='VerTicket("+data.cpv_tickets_id+");' ><span class='fa fa-eye'> Ver</span></button>";
-                }else{
-                  data = "<button class='btn btn-info' onclick='VerTicket("+data.cpv_tickets_id+");' ><span class='fa fa-eye'> Ver</span></button><button class='btn btn-danger' onclick='DelTicket("+data.cpv_tickets_id+");' data-toggle='modal' data-target='#ModalCerrar'> <span class='fa fa-window-close'> Cerrar</span></button>";
-                }
-               
-            }
-               return data;
+                 case data.ad_user : return "<button class='btn btn-info' onclick='VerTicket("+data.cpv_tickets_id+");' ><span class='fa fa-eye'> Ver</span></button><button class='btn btn-danger' onclick='DelTicket("+data.cpv_tickets_id+");' data-toggle='modal' data-target='#ModalCerrar'> <span class='fa fa-window-close'> Cerrar</span></button>"; break;
+
+                 default  : return "<button class='btn btn-info' onclick='VerTicket("+data.cpv_tickets_id+");' ><span class='fa fa-eye'> Ver</span></button>";
               }
+            }
           }
         ]
       });
     });
-
   </script>
 
     <script type="text/javascript">

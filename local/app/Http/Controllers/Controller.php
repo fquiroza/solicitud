@@ -12,15 +12,6 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
-    public function eo_grade()
-	{
-		$result = DB::table('eo_grade')
-	    					->select('name','eo_grade_id AS id')
-	        				->get();
-	    return $result;
-	}
-
-
     public function lugar($id)
 	{
 		$result = DB::table('eo_grade')

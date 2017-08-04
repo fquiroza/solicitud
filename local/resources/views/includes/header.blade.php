@@ -435,20 +435,152 @@
     document.getElementById("message_boton").click();
   </script>  
 
-  <script type="text/javascript">
+    <script type="text/javascript">
     $(document).ready(function(){
-      $('#ticket').DataTable({
+      $('#ticketon').DataTable({
         "order": [[ 0, "desc" ]],
-        "language": {url: '//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json'}
+        "language": {url: '//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json'},
+        "processing": true,
+        "serverSide": true,
+        "ajax": {'url': '{{asset("ticket_list")}}'},
+        "columns":[
+          {data: 'cpv_tickets_id'},
+          {data: 'createdby'},
+          {data: 'ad_user_id'},
+          {data: 'type'},
+          {data: 'category'},
+          {data: 'location'},
+          {targets: -1,
+           data: null,
+           render: function(data, type, full, meta){
+               if(type === 'display'){data = "<span class='label label-success'>"+data.status+"</span>";}return data;
+            }
+          },
+          {data: 'created'},
+          {targets: -1,
+           data: null,
+           render: function(data, type, full, meta){
+            
+              switch(data.user) {
+
+                 case data.ad_user : return "<button class='btn btn-info' onclick='VerTicket("+data.cpv_tickets_id+");' ><span class='fa fa-eye'> Ver</span></button><button class='btn btn-danger' onclick='DelTicket("+data.cpv_tickets_id+");' data-toggle='modal' data-target='#ModalCerrar'> <span class='fa fa-window-close'> Cerrar</span></button>"; break;
+
+                 default  : return "<button class='btn btn-info' onclick='VerTicket("+data.cpv_tickets_id+");' ><span class='fa fa-eye'> Ver</span></button>";
+              }
+            }
+          }
+        ]
+      });
+    });
+  </script>
+
+    <script type="text/javascript">
+    $(document).ready(function(){
+      $('#ticketoff').DataTable({
+        "order": [[ 0, "desc" ]],
+        "language": {url: '//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json'},
+        "processing": true,
+        "serverSide": true,
+        "ajax": {'url': '{{asset("ticket_historial")}}'},
+        "columns":[
+          {data: 'cpv_tickets_id'},
+          {data: 'createdby'},
+          {data: 'ad_user_id'},
+          {data: 'type'},
+          {data: 'category'},
+          {data: 'location'},
+          {targets: -1,
+           data: null,
+           render: function(data, type, full, meta){
+               if(type === 'display'){data = "<span class='label label-danger'>"+data.status+"</span>";}return data;
+            }
+          },
+          {data: 'created'},
+          {data: 'updated'},
+          {targets: -1,
+           data: null,
+           render: function(data, type, full, meta){
+            
+              return "<button class='btn btn-info' onclick='VerTicket("+data.cpv_tickets_id+");' ><span class='fa fa-eye'> Ver</span></button>";
+            }
+          }
+        ]
       });
     });
   </script>
 
   <script type="text/javascript">
     $(document).ready(function(){
-      $('#dependencia').DataTable({
+      $('#dependenciaon').DataTable({
         "order": [[ 0, "desc" ]],
-        "language": {url: '//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json'}
+        "language": {url: '//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json'},
+        "processing": true,
+        "serverSide": true,
+        "ajax": {'url': '{{asset("dependencia_list")}}'},
+        "columns":[
+          {data: 'cpv_dependencia_id'},
+          {data: 'createdby'},
+          {data: 'ad_user_id'},
+          {data: 'created'},
+          {data: 'requerimiento'},
+          {data: 'location'},
+          {data: 'fecha_inicio'},
+          {data: 'fecha_fin'},
+          {targets: -1,
+           data: null,
+           render: function(data, type, full, meta){
+               if(type === 'display'){data = "<span class='label label-success'>"+data.status+"</span>";}return data;
+            }
+          },
+          {targets: -1,
+           data: null,
+           render: function(data, type, full, meta){
+            
+              switch(data.user) {
+
+                 case data.ad_user : return "<button class='btn btn-info' onclick='VerTicket("+data.cpv_dependencia_id+");' ><span class='fa fa-eye'> Ver</span></button><button class='btn btn-danger' onclick='DelTicket("+data.cpv_dependencia_id+");' data-toggle='modal' data-target='#ModalCerrar'> <span class='fa fa-window-close'> Cerrar</span></button>"; break;
+
+                 default  : return "<button class='btn btn-info' onclick='VerTicket("+data.cpv_dependencia_id+");' ><span class='fa fa-eye'> Ver</span></button>";
+              }
+            }
+          }
+        ]
+      });
+    });
+  </script>
+
+    <script type="text/javascript">
+    $(document).ready(function(){
+      $('#dependenciaoff').DataTable({
+        "order": [[ 0, "desc" ]],
+        "language": {url: '//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json'},
+        "processing": true,
+        "serverSide": true,
+        "ajax": {'url': '{{asset("dependencia_historial")}}'},
+        "columns":[
+          {data: 'cpv_dependencia_id'},
+          {data: 'createdby'},
+          {data: 'ad_user_id'},
+          {data: 'created'},
+          {data: 'requerimiento'},
+          {data: 'location'},
+          {data: 'fecha_inicio'},
+          {data: 'fecha_fin'},
+          {targets: -1,
+           data: null,
+           render: function(data, type, full, meta){
+               if(type === 'display'){data = "<span class='label label-danger'>"+data.status+"</span>";}return data;
+            }
+          },
+          {targets: -1,
+           data: null,
+           render: function(data, type, full, meta){
+            
+              return "<button class='btn btn-info' onclick='VerTicket("+data.cpv_dependencia_id+");' ><span class='fa fa-eye'> Ver</span></button>";
+              
+            }
+          }
+        ]
       });
     });
   </script>
