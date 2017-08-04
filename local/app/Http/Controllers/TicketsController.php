@@ -41,13 +41,12 @@ class TicketsController extends Controller
                             })
                             ->where('status','=','ABIERTO')->get();
         }
-        
-        $eo_grade = $this->eo_grade();
+
         $ad_user = $this->ad_user();
 
         $message = $request->session()->get('message');
         
-     return View('tickets.solicitud_activa', compact('ticket','eo_grade','ad_user','message','user'));
+     return View('tickets.solicitud_activa', compact('ticket','ad_user','message','user'));
     }
 
     public function crear(Request $request)
@@ -283,13 +282,12 @@ class TicketsController extends Controller
                         ->where('status','=','CERRADO')->get();
         }
         
-        $eo_grade = $this->eo_grade();
         $ad_user = $this->ad_user();
         $user = $request->session()->get('id');
 
         $message = $request->session()->get('message');
         
-     return View('tickets.historial_solicitud', compact('ticket','eo_grade','ad_user','message','user'));
+     return View('tickets.historial_solicitud', compact('ticket','ad_user','message','user'));
     }
 
     /*public function pdf1()

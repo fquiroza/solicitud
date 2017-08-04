@@ -47,6 +47,7 @@ class ExcelController extends Controller
                     Excel::create('Informe-Tickets', function($excel) use($tickets) {
                     $excel->sheet('Informe', function($sheet) use($tickets) {
 
+                    $ad_user = $this->ad_user();
                     //Header A1
                     $sheet->row(1, ['', '','','','','','Informe de Tickets']);
 
@@ -57,8 +58,19 @@ class ExcelController extends Controller
 
                     $sum++;
                     $sheet->setCellValue('A'.$sum, $t['cpv_tickets_id']);
-                    $sheet->setCellValue('B'.$sum, $t['createdby']);
-                    $sheet->setCellValue('C'.$sum, $t['ad_user_id']);
+
+                    foreach ($ad_user as $ad){
+                        if($t['createdby']==$ad->id){
+                            $sheet->setCellValue('B'.$sum, $ad->name);
+                        }
+                    }
+
+                    foreach ($ad_user as $ad){
+                        if($t['ad_user_id']==$ad->id){
+                            $sheet->setCellValue('C'.$sum, $ad->name);
+                        }
+                    }
+                    
                     $sheet->setCellValue('D'.$sum, $t['type']);
                     $sheet->setCellValue('E'.$sum, $t['category']);
                     $sheet->setCellValue('F'.$sum, $t['location']);
@@ -103,6 +115,7 @@ class ExcelController extends Controller
                     Excel::create('Informe-Dependencia', function($excel) use($dependencia) {
                     $excel->sheet('Informe', function($sheet) use($dependencia) {
 
+                    $ad_user = $this->ad_user();
                     //Header A1
                     $sheet->row(1, ['', '','','','','','Informe de Dependencia']);
 
@@ -113,8 +126,19 @@ class ExcelController extends Controller
 
                     $sum++;
                     $sheet->setCellValue('A'.$sum, $d['cpv_dependencia_id']);
-                    $sheet->setCellValue('B'.$sum, $d['createdby']);
-                    $sheet->setCellValue('C'.$sum, $d['ad_user_id']);
+
+                    foreach ($ad_user as $ad){
+                        if($d['createdby']==$ad->id){
+                            $sheet->setCellValue('B'.$sum, $ad->name);
+                        }
+                    }
+                    
+                    foreach ($ad_user as $ad){
+                        if($d['ad_user_id']==$ad->id){
+                            $sheet->setCellValue('C'.$sum, $ad->name);
+                        }
+                    }
+
                     $sheet->setCellValue('D'.$sum, $d['responsable_nombre']);
                     $sheet->setCellValue('E'.$sum, $d['responsable_cargo']);
                     $sheet->setCellValue('F'.$sum, $d['created']);
